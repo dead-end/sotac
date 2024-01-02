@@ -1,4 +1,4 @@
-import { Show, createSignal, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import FromComponent from "../components/FormComponent";
 import TextComponent from "../components/TextComponent";

@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import { tester } from "../ts/crypt";
 
 const Home = () => {
   const [count, setCount] = createSignal(0);
@@ -7,11 +8,12 @@ const Home = () => {
     <>
       <h2>Welcome Home</h2>
       <h2 class="text-lg font-bold">Hello Word!</h2>
-      <button
-        class="border border-indigo-500 rounded"
-        onClick={() => setCount((count) => count + 1)}
-      >
+      <button class="btn-base" onClick={() => setCount((count) => count + 1)}>
         count is {count()}
+      </button>
+
+      <button class="btn-base" onClick={tester}>
+        Tester
       </button>
     </>
   );
