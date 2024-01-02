@@ -6,7 +6,6 @@ const AuthGard: ParentComponent = (props) => {
   const token = localStorage.getItem("token");
 
   createEffect(() => {
-    console.log("################", token);
     if (!token) {
       navigate("/login", { replace: true });
     }

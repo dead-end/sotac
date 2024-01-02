@@ -1,11 +1,22 @@
-import { ParentComponent } from "solid-js";
+import { Component } from "solid-js";
+import { Router, Route } from "@solidjs/router";
+import AuthGard from "./components/AuthGard";
+import Layout from "./components/Layout";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Setup from "./pages/Setup";
 
-const App: ParentComponent = (props) => {
+const App: Component = () => {
   return (
-    <div class="text-gray-700 max-w-screen-xl m-auto bg-gray-50">
-      <h1 class="text-lg font-bold">Sotac 1.0</h1>
-      {props.children}
-    </div>
+    <Router root={Layout}>
+      <Route path="/login" component={Login} />
+      <Route path="/setup" component={Setup} />
+      <Route path="/" component={AuthGard}>
+        <Route path="/home" component={Home} />
+        <Route path="/about" component={About} />
+      </Route>
+    </Router>
   );
 };
 
