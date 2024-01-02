@@ -83,7 +83,7 @@ const getKey = async (pwd: string, salt: Uint8Array) => {
       name: "PBKDF2",
       salt,
       iterations: 250000,
-      hash: "SHA-256",
+      hash: "SHA-512",
     },
     importKey,
     { name: "AES-GCM", length: 256 },
