@@ -32,3 +32,9 @@ Added css file: `./src/index.css` with:
 @tailwind components;
 @tailwind utilities;
 ```
+
+Install SolidJs router:
+
+```sh
+npm install @solidjs/router
+```

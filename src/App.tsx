@@ -1,19 +1,12 @@
-import { createSignal } from "solid-js";
+import { ParentComponent } from "solid-js";
 
-function App() {
-  const [count, setCount] = createSignal(0);
-
+const App: ParentComponent = (props) => {
   return (
-    <>
-      <h2 class="text-lg font-bold">Hello Word!</h2>
-      <button
-        class="border border-indigo-500 rounded"
-        onClick={() => setCount((count) => count + 1)}
-      >
-        count is {count()}
-      </button>
-    </>
+    <div class="text-gray-700 max-w-screen-xl m-auto bg-gray-50">
+      <h1 class="text-lg font-bold">Sotac 1.0</h1>
+      {props.children}
+    </div>
   );
-}
+};
 
 export default App;
