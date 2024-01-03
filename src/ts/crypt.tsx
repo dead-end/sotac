@@ -19,7 +19,11 @@ export const tester = async () => {
 /**
  *
  */
-const doDecrypt = async (key: CryptoKey, iv: Uint8Array, base64: string) => {
+export const doDecrypt = async (
+  key: CryptoKey,
+  iv: Uint8Array,
+  base64: string
+) => {
   const uint8Array = base64ToBytes(base64);
   const encArrBuf = uint8Array.buffer;
 
@@ -38,7 +42,11 @@ const doDecrypt = async (key: CryptoKey, iv: Uint8Array, base64: string) => {
 /**
  *
  */
-const doEncrypt = async (key: CryptoKey, iv: Uint8Array, msg: string) => {
+export const doEncrypt = async (
+  key: CryptoKey,
+  iv: Uint8Array,
+  msg: string
+) => {
   const encArrBuf = await crypto.subtle.encrypt(
     {
       name: "AES-GCM",
@@ -69,7 +77,7 @@ const getStoredRandomBytes = (key: string, length: number) => {
 /**
  * The function creates a derived key from a password.
  */
-const getKey = async (pwd: string, salt: Uint8Array) => {
+export const getKey = async (pwd: string, salt: Uint8Array) => {
   const importKey = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(pwd),
@@ -92,4 +100,12 @@ const getKey = async (pwd: string, salt: Uint8Array) => {
   );
 
   return deriveKey;
+};
+
+export const getSalt = () => {
+  return getStoredRandomBytes("salt", 12);
+};
+
+export const getIv = () => {
+  return getStoredRandomBytes("iv", 12);
 };

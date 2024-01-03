@@ -3,14 +3,16 @@ import { useNavigate } from "@solidjs/router";
 import FromComponent from "../components/FormComponent";
 import TextComponent from "../components/TextComponent";
 import { requiredStringValidatorFactory } from "../ts/validate";
+import { useGithubContext } from "../contexts/GithubContext";
 
 const Login = () => {
+  const [state, { load }] = useGithubContext();
   const [password, setPassword] = createSignal("");
   const [passwordError, setPasswordError] = createSignal("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event: Event): void => {
+  const handleSubmit = async (event: Event): Promise<void> => {
     event.preventDefault();
 
     let error = false;
@@ -29,6 +31,8 @@ const Login = () => {
     if (error) {
       return;
     }
+
+    await load(password());
 
     navigate("/home", { replace: true });
   };

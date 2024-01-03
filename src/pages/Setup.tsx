@@ -3,10 +3,13 @@ import { useNavigate } from "@solidjs/router";
 import FromComponent from "../components/FormComponent";
 import TextComponent from "../components/TextComponent";
 import { requiredStringValidatorFactory } from "../ts/validate";
+import { useGithubContext } from "../contexts/GithubContext";
 
 const Setup = () => {
-  const [user, setUser] = createSignal("");
-  const [userError, setUserError] = createSignal("");
+  const [state, { save }] = useGithubContext();
+
+  const [owner, setOwner] = createSignal("");
+  const [ownerError, setOwnerError] = createSignal("");
 
   const [name, setName] = createSignal("");
   const [nameError, setNameError] = createSignal("");
@@ -22,27 +25,20 @@ const Setup = () => {
 
   const navigate = useNavigate();
 
-  onMount(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
-    }
-  });
-
-  const handleSubmit = (event: Event): void => {
+  const handleSubmit = async (event: Event): Promise<void> => {
     event.preventDefault();
 
     let error = false;
 
     const requiredStringValidator = requiredStringValidatorFactory();
 
-    setUserError("");
+    setOwnerError("");
     setNameError("");
     setTokenError("");
     setPasswordError("");
     setRepeateError("");
 
-    if (!userError() && !requiredStringValidator(user(), setUserError)) {
+    if (!ownerError() && !requiredStringValidator(owner(), setOwnerError)) {
       error = true;
     }
 
@@ -74,8 +70,7 @@ const Setup = () => {
     }
 
     if (!error) {
-      localStorage.setItem("token", token());
-
+      await save(owner(), name(), token(), password());
       navigate("/home", { replace: true });
     }
   };
@@ -85,11 +80,11 @@ const Setup = () => {
       <FromComponent label="Login" onSubmit={handleSubmit}>
         <TextComponent
           type="text"
-          label="Repository User"
-          placeholder="Repository User"
-          getValue={user}
-          setValue={setUser}
-          getError={userError}
+          label="Repository Owner"
+          placeholder="Repository Owner"
+          getValue={owner}
+          setValue={setOwner}
+          getError={ownerError}
         />
 
         <TextComponent
