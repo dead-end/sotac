@@ -3,8 +3,8 @@ import { base64ToBytes, bytesToBase64 } from "byte-base64";
 export const tester = async () => {
   const pw = "T0p5ecret!";
 
-  const iv = getStoredRandomBytes("iv", 10);
-  const salt = getStoredRandomBytes("salt", 10);
+  const iv = getStoredRandomBytes("iv", 12);
+  const salt = getStoredRandomBytes("salt", 12);
 
   const key = await getKey(pw, salt);
 
@@ -74,7 +74,7 @@ const getKey = async (pwd: string, salt: Uint8Array) => {
     "raw",
     new TextEncoder().encode(pwd),
     "PBKDF2",
-    false,
+    false, // extractable
     ["deriveKey"]
   );
 
@@ -83,11 +83,11 @@ const getKey = async (pwd: string, salt: Uint8Array) => {
       name: "PBKDF2",
       salt,
       iterations: 250000,
-      hash: "SHA-512",
+      hash: "SHA-256",
     },
     importKey,
     { name: "AES-GCM", length: 256 },
-    false,
+    false, // extractable
     ["encrypt", "decrypt"]
   );
 
