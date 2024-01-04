@@ -32,7 +32,13 @@ const Login = () => {
       return;
     }
 
-    await load(password());
+    try {
+      await load(password());
+    } catch (e) {
+      setPasswordError("Password is not correct!");
+      console.log(e);
+      return;
+    }
 
     navigate("/home", { replace: true });
   };

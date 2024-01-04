@@ -13,7 +13,7 @@ const TextComponent: Component<{
       <label class="label-base mb-2">{props.label}</label>
       <input
         placeholder={props.placeholder}
-        type="text"
+        type={props.type}
         value={props.getValue()}
         onChange={(e) => props.setValue(e.target.value)}
         class="input-base"

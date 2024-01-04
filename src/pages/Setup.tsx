@@ -4,9 +4,23 @@ import FromComponent from "../components/FormComponent";
 import TextComponent from "../components/TextComponent";
 import { requiredStringValidatorFactory } from "../ts/validate";
 import { useGithubContext } from "../contexts/GithubContext";
+import { createStore } from "solid-js/store";
 
 const Setup = () => {
   const [state, { save }] = useGithubContext();
+
+  const [input, setInput] = createStore({
+    owner: "",
+    name: "",
+    token: "",
+    password: "",
+    error: {
+      owner: "",
+      name: "",
+      token: "",
+      password: "",
+    },
+  });
 
   const [owner, setOwner] = createSignal("");
   const [ownerError, setOwnerError] = createSignal("");
@@ -82,8 +96,11 @@ const Setup = () => {
           type="text"
           label="Repository Owner"
           placeholder="Repository Owner"
-          getValue={owner}
-          setValue={setOwner}
+          getValue={() => input.owner}
+          setValue={(value) => {
+            setInput("owner", value);
+            return value;
+          }}
           getError={ownerError}
         />
 

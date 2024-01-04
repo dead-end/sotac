@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Setup from "./pages/Setup";
 import { GithubContextProvider } from "./contexts/GithubContext";
+import Test from "./pages/test";
 
 const App: Component = () => {
   return (
@@ -14,6 +15,7 @@ const App: Component = () => {
       <Router root={Layout}>
         <Route path="/login" component={Login} />
         <Route path="/setup" component={Setup} />
+        <Route path="/test" component={Test} />
         <Route path="/" component={AuthGard}>
           <Route path="/home" component={Home} />
           <Route path="/about" component={About} />
