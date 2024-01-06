@@ -10,7 +10,7 @@ const MyWay = () => {
     password: "",
   });
 
-  const { validateForm, register, errors, setErrors } = useForm();
+  const { validateForm, internals } = useForm(form, setForm);
 
   const handleSubmit = (event: Event): void => {
     event.preventDefault();
@@ -29,11 +29,7 @@ const MyWay = () => {
           type="text"
           placeholder="User"
           validators={[requiredValidator]}
-          form={form}
-          setForm={setForm}
-          errors={errors}
-          setErrors={setErrors}
-          register={register}
+          internals={internals}
         />
 
         <MyTextComponent
@@ -42,11 +38,7 @@ const MyWay = () => {
           type="password"
           placeholder="Password"
           validators={[requiredValidator]}
-          form={form}
-          setForm={setForm}
-          errors={errors}
-          setErrors={setErrors}
-          register={register}
+          internals={internals}
         />
       </FromComponent>
     </div>

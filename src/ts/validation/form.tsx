@@ -1,7 +1,7 @@
-import { createStore } from "solid-js/store";
-import { TElementValidators, TErrors, TValidator } from "./types";
+import { SetStoreFunction, createStore } from "solid-js/store";
+import { TElementValidators, TErrors, TInternals, TValidator } from "./types";
 
-export const useForm = () => {
+export const useForm = (form: any, setForm: SetStoreFunction<any>) => {
   const elementValidators: TElementValidators[] = [];
 
   const [errors, setErrors] = createStore<TErrors>({});
@@ -39,8 +39,12 @@ export const useForm = () => {
 
   return {
     validateForm,
-    register,
-    errors,
-    setErrors,
+    internals: {
+      form,
+      setForm,
+      errors,
+      setErrors,
+      register,
+    } as TInternals,
   };
 };
