@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import FromComponent from "../components/FormComponent";
 import TextComponent from "../components/TextComponent";
-import { requiredStringValidatorFactory } from "../ts/validate";
+import { requiredStringValidatorFactory } from "../ts/validators";
 import { useGithubContext } from "../contexts/GithubContext";
 
 const Login = () => {

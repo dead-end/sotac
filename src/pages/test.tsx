@@ -2,7 +2,8 @@
 import { render } from "solid-js/web";
 import { createStore } from "solid-js/store";
 import { useForm } from "../ts/validation";
-import type { TValidator } from "../ts/validation";
+import type { Validator } from "../ts/validation";
+import InputWrapper from "../components/InputWrapper";
 
 const EMAILS = ["johnsmith@outlook.com", "mary@gmail.com", "djacobs@move.org"];
 
@@ -23,22 +24,22 @@ const Test = () => {
     // form.submit()
     console.log("Done");
   };
-  const userNameExists: TValidator = async ({ value }) => {
+  const userNameExists: Validator = async ({ value }) => {
     if (await fetchUserName(value)) {
       return `${value} is already being used`;
     }
   };
-  const matchesPassword: TValidator = ({ value }) => {
+  const matchesPassword: Validator = ({ value }) => {
     value === fields.password ? false : "Passwords must Match";
   };
 
-  const reqiredValidator: TValidator = ({ value }) => {
+  const requiredValidator: Validator = ({ value }) => {
     if (!value) {
       return "Please enter a value!";
     }
   };
 
-  const minLenValidatorFactory = (min: number): TValidator => {
+  const minLenValidatorFactory = (min: number): Validator => {
     return ({ value }) => {
       if (typeof value === "string" && value.length < min) {
         return `Enter at least ${min} chars`;
@@ -49,39 +50,36 @@ const Test = () => {
   return (
     <form use:formSubmit="">
       <h1>Sign Up</h1>
-      <div class="">
+
+      <InputWrapper label="Eamil" name="email" errors={errors}>
         <input
-          class="input-base my-3"
+          class="input-base"
           name="email"
           type="text"
           placeholder="Email"
-          use:validate={[reqiredValidator, userNameExists]}
+          use:validate={[requiredValidator, userNameExists]}
         />
-        {errors.email && <ErrorMessage error={errors.email} />}
-      </div>
-      <div class="field-block">
+      </InputWrapper>
+
+      <InputWrapper label="Password" name="password" errors={errors}>
         <input
-          class="input-base my-3"
+          class="input-base"
           type="text"
           name="password"
           placeholder="Password"
           onInput={(e) => setFields("password", e.target.value)}
-          use:validate={[reqiredValidator, minLenValidatorFactory(4)]}
+          use:validate={[requiredValidator, minLenValidatorFactory(4)]}
         />
-        {errors.password && <ErrorMessage error={errors.password} />}
-      </div>
-      <div class="field-block">
+      </InputWrapper>
+      <InputWrapper label="Confirm" name="confirm" errors={errors}>
         <input
-          class="input-base my-3"
+          class="input-base"
           type="text"
-          name="confirmpassword"
+          name="confirm"
           placeholder="Confirm Password"
-          use:validate={[reqiredValidator, matchesPassword]}
+          use:validate={[requiredValidator, matchesPassword]}
         />
-        {errors.confirmpassword && (
-          <ErrorMessage error={errors.confirmpassword} />
-        )}
-      </div>
+      </InputWrapper>
 
       <button type="submit">Submit</button>
     </form>

@@ -1,19 +1,19 @@
 import { SetStoreFunction, createStore } from "solid-js/store";
 
-export type TValidator = (element: HTMLInputElement) => string;
+export type Validator = (element: HTMLInputElement) => string;
 
-interface InputElementValidator {
+interface ElementValidators {
   element: HTMLInputElement;
-  validators: TValidator[];
+  validators: Validator[];
 }
 
-interface StringMap {
+interface ObjectStrStr {
   [key: string]: string;
 }
 
 function checkValid(
-  { element, validators = [] }: InputElementValidator,
-  setErrors: SetStoreFunction<StringMap>
+  { element, validators = [] }: ElementValidators,
+  setErrors: SetStoreFunction<ObjectStrStr>
 ) {
   return async () => {
     for (const validator of validators) {
@@ -29,29 +29,29 @@ function checkValid(
 }
 
 export function useForm() {
-  const [errors, setErrors] = createStore<StringMap>({});
-  const fields: any = {};
+  const [errors, setErrors] = createStore<ObjectStrStr>({});
+  const fields: { [key: string]: ElementValidators } = {};
 
-  const validate = (ref: HTMLInputElement, accessor: () => any) => {
-    const accessorValue = accessor();
-    const validators = Array.isArray(accessorValue) ? accessorValue : [];
-    let config;
-    fields[ref.name] = config = { element: ref, validators };
+  const validate = (element: HTMLInputElement, accessor: () => any) => {
+    const value = accessor();
+    const validators: Validator[] = Array.isArray(value) ? value : [];
+    const config: ElementValidators = { element: element, validators };
+    fields[element.name] = config;
     //
     // Call the validation when a user leaves an input field:
     //
     //ref.onblur = checkValid(config, setErrors);
-    ref.oninput = () => {
-      if (!errors[ref.name]) {
+    element.oninput = () => {
+      if (!errors[element.name]) {
         return;
       }
-      setErrors({ [ref.name]: undefined });
+      setErrors({ [element.name]: undefined });
     };
   };
 
-  const formSubmit = (ref: HTMLFormElement, accessor: () => any) => {
+  const formSubmit = (element: HTMLFormElement, accessor: () => any) => {
     const callback = accessor() || (() => {});
-    ref.onsubmit = async (e) => {
+    element.onsubmit = async (e) => {
       e.preventDefault();
       let hasErrors = false;
 
@@ -63,7 +63,7 @@ export function useForm() {
           hasErrors = true;
         }
       }
-      !hasErrors && callback(ref);
+      !hasErrors && callback(element);
     };
   };
 
