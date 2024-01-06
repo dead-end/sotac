@@ -1,6 +1,6 @@
 import { SetStoreFunction } from "solid-js/store";
 
-export type TValidator = (element: HTMLInputElement) => string | void;
+export type TValidator = (value: any, form: any) => string | void;
 
 export type TRegister = (
   validators: TValidator[]

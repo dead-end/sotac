@@ -9,6 +9,7 @@ import Setup from "./pages/Setup";
 import { GithubContextProvider } from "./contexts/GithubContext";
 import Test from "./pages/test";
 import MyWay from "./pages/MyWay";
+import SetupGithub from "./pages/SetupGithub";
 
 const App: Component = () => {
   return (
@@ -16,6 +17,7 @@ const App: Component = () => {
       <Router root={Layout}>
         <Route path="/login" component={Login} />
         <Route path="/setup" component={Setup} />
+        <Route path="/github" component={SetupGithub} />
         <Route path="/test" component={Test} />
         <Route path="/myway" component={MyWay} />
         <Route path="/" component={AuthGard}>

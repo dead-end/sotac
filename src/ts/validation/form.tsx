@@ -21,7 +21,7 @@ export const useForm = (form: any, setForm: SetStoreFunction<any>) => {
     setErrors([elementValidators.element.name], "");
 
     for (const validator of elementValidators.validators) {
-      const msg = validator(elementValidators.element);
+      const msg = validator(elementValidators.element.value, form);
       if (msg) {
         setErrors([elementValidators.element.name], msg);
         return false;
