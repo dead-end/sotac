@@ -12,7 +12,8 @@ export type GithubContextValue = [
   actions: {
     save: (owner: string, name: string, token: string, pwd: string) => void;
     load: (pwd: string) => void;
-    exists: () => boolean;
+    needsSetup: () => boolean;
+    isLogin: () => boolean;
   }
 ];
 
@@ -27,7 +28,8 @@ const GithubContext = createContext<GithubContextValue>([
   {
     load: () => undefined,
     save: () => undefined,
-    exists: () => false,
+    needsSetup: () => false,
+    isLogin: () => false,
   },
 ]);
 
@@ -52,10 +54,16 @@ export const GithubContextProvider: ParentComponent = (props) => {
     setState("name", name);
     setState("token", token);
   };
-  const exists = hasGitubRepo;
+
+  const needsSetup = () => !hasGitubRepo();
+  const isLogin = () => {
+    return state.token ? true : false;
+  };
 
   return (
-    <GithubContext.Provider value={[state, { load, save, exists }]}>
+    <GithubContext.Provider
+      value={[state, { load, save, needsSetup, isLogin }]}
+    >
       {props.children}
     </GithubContext.Provider>
   );

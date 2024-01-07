@@ -12,9 +12,9 @@ const App: Component = () => {
   return (
     <GithubContextProvider>
       <Router root={Layout}>
-        <Route path="/login" component={Login} />
-        <Route path="/setup" component={SetupGithub} />
         <Route path="/" component={AuthGard}>
+          <Route path="/login" component={Login} />
+          <Route path="/setup" component={SetupGithub} />
           <Route path="/home" component={Home} />
           <Route path="/about" component={About} />
         </Route>

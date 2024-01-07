@@ -5,13 +5,15 @@ import { useGithubContext } from "../contexts/GithubContext";
 const AuthGard: ParentComponent = (props) => {
   const navigate = useNavigate();
 
-  const [state, { exists }] = useGithubContext();
+  const [state, { needsSetup, isLogin }] = useGithubContext();
 
   createEffect(() => {
-    if (!exists()) {
+    if (needsSetup()) {
       navigate("/setup", { replace: true });
-    } else if (!state.token) {
+      console.log("navigate to: setup");
+    } else if (!isLogin()) {
       navigate("/login", { replace: true });
+      console.log("navigate to: login");
     }
   });
 
