@@ -1,7 +1,7 @@
 import { createStore } from "solid-js/store";
 import { useForm } from "../ts/validation/form";
 import FromComponent from "../components/FormComponent";
-import MyTextComponent from "../components/MyTextComponent";
+import TextComponent from "../components/TextComponent";
 import {
   requiredValidator,
   validateFieldEquals,
@@ -57,7 +57,7 @@ const SetupGithub = () => {
   return (
     <div class="w-full max-w-xs m-auto">
       <FromComponent label="Setup Github" onSubmit={handleSubmit}>
-        <MyTextComponent
+        <TextComponent
           name="owner"
           label="Repository Owner"
           type="text"
@@ -65,7 +65,7 @@ const SetupGithub = () => {
           internals={internals}
         />
 
-        <MyTextComponent
+        <TextComponent
           name="name"
           label="Repository Name"
           type="text"
@@ -73,7 +73,7 @@ const SetupGithub = () => {
           internals={internals}
         />
 
-        <MyTextComponent
+        <TextComponent
           name="token"
           label="Token"
           type="text"
@@ -81,7 +81,7 @@ const SetupGithub = () => {
           internals={internals}
         />
 
-        <MyTextComponent
+        <TextComponent
           name="password"
           label="Password"
           type="password"
@@ -89,7 +89,7 @@ const SetupGithub = () => {
           internals={internals}
         />
 
-        <MyTextComponent
+        <TextComponent
           name="confirm"
           label="Confirm Password"
           type="password"

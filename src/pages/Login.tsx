@@ -4,7 +4,7 @@ import { useGithubContext } from "../contexts/GithubContext";
 import { createStore } from "solid-js/store";
 import { TFormValues, TValidator } from "../ts/validation/types";
 import { requiredValidator } from "../ts/validation/validators";
-import MyTextComponent from "../components/MyTextComponent";
+import TextComponent from "../components/TextComponent";
 import { useForm } from "../ts/validation/form";
 
 const Login = () => {
@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <div class="w-full max-w-xs m-auto">
       <FromComponent label="Login" onSubmit={handleSubmit}>
-        <MyTextComponent
+        <TextComponent
           name="password"
           label="Password"
           type="password"

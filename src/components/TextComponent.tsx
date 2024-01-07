@@ -2,7 +2,7 @@ import { Component, Show } from "solid-js";
 
 import { TInternals } from "../ts/validation/types";
 
-const MyTextComponent: Component<{
+const TextComponent: Component<{
   name: string;
   label: string;
   type?: "text" | "password";
@@ -28,4 +28,4 @@ const MyTextComponent: Component<{
   );
 };
 
-export default MyTextComponent;
+export default TextComponent;
