@@ -1,17 +1,34 @@
 import { A } from "@solidjs/router";
 import { Component, For } from "solid-js";
 
-const Navigation: Component<{
-  items: { label: string; href: string }[];
-}> = ({ items }) => {
+const Navigation: Component = () => {
+  const navItems = [
+    {
+      label: "Home",
+      href: "/home",
+    },
+    {
+      label: "Setup",
+      href: "/setup",
+    },
+    {
+      label: "Login",
+      href: "/login",
+    },
+    {
+      label: "About",
+      href: "/about",
+    },
+  ];
+
   return (
-    <nav>
+    <nav class="">
       <ul class="flex flex-row justify-end">
-        <For each={items}>
-          {(item) => {
+        <For each={navItems}>
+          {(navItem) => {
             return (
-              <li class="p-4 hover:text-indigo-700">
-                <A href={item.href}>{item.label}</A>
+              <li class="p-4 hover:underline hover:text-indigo-600">
+                <A href={navItem.href}>{navItem.label}</A>
               </li>
             );
           }}
