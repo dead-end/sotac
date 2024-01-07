@@ -1,41 +1,42 @@
 import { SetStoreFunction, createStore } from "solid-js/store";
-import { TElementValidators, TErrors, TInternals, TValidator } from "./types";
+import { TFormErrors, TFormValues, TInternals, TValidator } from "./types";
 
-export const useForm = (form: any, setForm: SetStoreFunction<any>) => {
-  const elementValidators: TElementValidators[] = [];
-
-  const [errors, setErrors] = createStore<TErrors>({});
-
-  const validateForm = () => {
-    let ok = true;
-    for (const elementValidator of elementValidators) {
-      if (!validateElement(elementValidator)) {
-        ok = false;
-      }
-    }
-
-    return ok;
-  };
-
-  const validateElement = (elementValidators: TElementValidators) => {
-    setErrors([elementValidators.element.name], "");
-
-    for (const validator of elementValidators.validators) {
-      const msg = validator(elementValidators.element.value, form);
+export const useForm = (
+  form: TFormValues,
+  setForm: SetStoreFunction<TFormValues>,
+  fieldValidators: Record<string, TValidator[]>
+) => {
+  /**
+   * The function calls the validators of a field and stops on the first error,
+   */
+  const validateField = (name: string, validators: TValidator[]) => {
+    setErrors([name], "");
+    for (const validator of validators) {
+      const msg = validator(form[name], form);
       if (msg) {
-        setErrors([elementValidators.element.name], msg);
+        setErrors([name], msg);
         return false;
       }
     }
-
     return true;
   };
 
-  const register = (validators: TValidator[]) => {
-    return (element: HTMLInputElement) => {
-      elementValidators.push({ element, validators });
-    };
+  /**
+   * The function triggers the validation of all form fields which have
+   * registred validators. The function returns false if at least one validator
+   * returns an error.
+   */
+  const validateForm = () => {
+    let ok = true;
+    for (const name in fieldValidators) {
+      if (!validateField(name, fieldValidators[name])) {
+        ok = false;
+      }
+    }
+    return ok;
   };
+
+  const [errors, setErrors] = createStore<TFormErrors>({});
 
   return {
     validateForm,
@@ -44,7 +45,6 @@ export const useForm = (form: any, setForm: SetStoreFunction<any>) => {
       setForm,
       errors,
       setErrors,
-      register,
     } as TInternals,
   };
 };

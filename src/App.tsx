@@ -5,10 +5,7 @@ import Layout from "./components/Layout";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Setup from "./pages/Setup";
 import { GithubContextProvider } from "./contexts/GithubContext";
-import Test from "./pages/test";
-import MyWay from "./pages/MyWay";
 import SetupGithub from "./pages/SetupGithub";
 
 const App: Component = () => {
@@ -16,10 +13,7 @@ const App: Component = () => {
     <GithubContextProvider>
       <Router root={Layout}>
         <Route path="/login" component={Login} />
-        <Route path="/setup" component={Setup} />
-        <Route path="/github" component={SetupGithub} />
-        <Route path="/test" component={Test} />
-        <Route path="/myway" component={MyWay} />
+        <Route path="/setup" component={SetupGithub} />
         <Route path="/" component={AuthGard}>
           <Route path="/home" component={Home} />
           <Route path="/about" component={About} />

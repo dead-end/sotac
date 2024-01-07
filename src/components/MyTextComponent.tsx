@@ -1,15 +1,14 @@
 import { Component, Show } from "solid-js";
 
-import { TInternals, TValidator } from "../ts/validation/types";
+import { TInternals } from "../ts/validation/types";
 
 const MyTextComponent: Component<{
   name: string;
   label: string;
   type?: "text" | "password";
   placeholder: string;
-  validators: TValidator[];
   internals: TInternals;
-}> = ({ name, label, type = "text", placeholder, validators, internals }) => {
+}> = ({ name, label, type = "text", placeholder, internals }) => {
   return (
     <div class="my-3">
       <label class="label-base mb-2">{label}</label>
@@ -21,7 +20,6 @@ const MyTextComponent: Component<{
         onChange={(e) => internals.setForm([name], e.target.value)}
         onBlur={() => internals.setErrors([name], "")}
         class="input-base"
-        ref={internals.register(validators)}
       />
       <Show when={internals.errors[name]}>
         <p class="text-xs text-red-600 pt-2">{internals.errors[name]}</p>

@@ -9,20 +9,32 @@ import {
 } from "../ts/validation/validators";
 import { useNavigate } from "@solidjs/router";
 import { useGithubContext } from "../contexts/GithubContext";
+import { TFormValues, TValidator } from "../ts/validation/types";
 
 const SetupGithub = () => {
   const navigate = useNavigate();
   const [state, { save }] = useGithubContext();
 
-  const [form, setForm] = createStore({
-    owner: "",
-    name: "",
+  const [form, setForm] = createStore<TFormValues>({
+    owner: state.owner,
+    name: state.name,
     token: "",
     password: "",
     confirm: "",
   });
 
-  const { validateForm, internals } = useForm(form, setForm);
+  const fieldValidators: Record<string, TValidator[]> = {
+    owner: [requiredValidator],
+    name: [requiredValidator],
+    token: [requiredValidator],
+    password: [requiredValidator, validateMinMax({ min: 3 })],
+    confirm: [
+      requiredValidator,
+      validateFieldEquals("password", "Passwords do not match"),
+    ],
+  };
+
+  const { validateForm, internals } = useForm(form, setForm, fieldValidators);
 
   const handleSubmit = async (event: Event): Promise<void> => {
     event.preventDefault();
@@ -50,7 +62,6 @@ const SetupGithub = () => {
           label="Repository Owner"
           type="text"
           placeholder="Repository Owner"
-          validators={[requiredValidator]}
           internals={internals}
         />
 
@@ -59,7 +70,6 @@ const SetupGithub = () => {
           label="Repository Name"
           type="text"
           placeholder="Repository Name"
-          validators={[requiredValidator]}
           internals={internals}
         />
 
@@ -68,7 +78,6 @@ const SetupGithub = () => {
           label="Token"
           type="text"
           placeholder="Token"
-          validators={[requiredValidator]}
           internals={internals}
         />
 
@@ -77,7 +86,6 @@ const SetupGithub = () => {
           label="Password"
           type="password"
           placeholder="Password"
-          validators={[requiredValidator, validateMinMax({ min: 3 })]}
           internals={internals}
         />
 
@@ -86,10 +94,6 @@ const SetupGithub = () => {
           label="Confirm Password"
           type="password"
           placeholder="Confirm Password"
-          validators={[
-            requiredValidator,
-            validateFieldEquals("password", "Passwords do not match"),
-          ]}
           internals={internals}
         />
       </FromComponent>
