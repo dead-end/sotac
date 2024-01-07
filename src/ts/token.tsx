@@ -17,15 +17,15 @@ export const hasGitubRepo = () => {
  * The function saves the github repository data in the local storage.
  */
 export const saveGithubRepo = async (
-  user: string,
+  owner: string,
   name: string,
   token: string,
   pwd: string
 ) => {
   const base64 = await enctyptToken(token, pwd);
 
-  const data = {
-    user,
+  const data: GithubRepo = {
+    owner,
     name,
     token: base64,
   };
